@@ -3,7 +3,7 @@ import { ImageDetails } from "models/ImageDetails";
 import { getConnection } from "typeorm";
 import * as AWS from "aws-sdk";
 
-import * as envConfig from "config";
+import * as envConfig from "config/index";
 import { ValidationError } from "helpers/ValidationError";
 import {
   INVALID_FILE_SIZE,
@@ -20,10 +20,7 @@ const DEFAULT_MAX_UPLOAD_FILE_SIZE_KB = 500;
 
 @Service()
 export class ImageUploadService {
-  public async create(
-    imageDetails: ImageDetails,
-    file: File
-  ): Promise<string> {
+  public async upload(imageDetails: ImageDetails, file: File): Promise<string> {
     await this.fileValidations(file);
     return await this.saveAndUpload(imageDetails, file);
   }
@@ -31,12 +28,14 @@ export class ImageUploadService {
   private async fileValidations(file: File): Promise<void> {
     return new Promise((resolve, reject) => {
       const allowedMimes =
-        envConfig.default.fileValidations.allowedFileMimeTypes?.split(",") || [];
+        envConfig.default.fileValidations.allowedFileMimeTypes?.split(",") ||
+        [];
       if (!allowedMimes.indexOf(file["mimetype"])) {
         reject(new ValidationError(INVALID_FILE_TYPE));
       }
       const allowedFileSize =
-        envConfig.default.fileValidations.allowedFileSizeInKB|| DEFAULT_MAX_UPLOAD_FILE_SIZE_KB;
+        envConfig.default.fileValidations.allowedFileSizeInKB ||
+        DEFAULT_MAX_UPLOAD_FILE_SIZE_KB;
       const actulaFileSize = file.size / 1000;
       if (Number(allowedFileSize) < Number(actulaFileSize)) {
         reject(new ValidationError(INVALID_FILE_SIZE));

@@ -8,8 +8,11 @@
       "services/*": ["services/*"],
       "routes/*": ["routes/*"],
       "helpers/*": ["helpers/*"],
-      "config/*": ["config/*"]
+      "config/*": ["config/*"],
+      "*": ["node_modules/"],
+      "typings/*": ["app/typings/*"]
     },
+    "types": ["node", "jest"],
     "target": "es6",
     "module": "commonjs",
     "strict": true,
@@ -20,5 +23,6 @@
     "forceConsistentCasingInFileNames": false,
     "noImplicitAny": false
   },
-  "exclude": ["node_modules"]
+  "include": ["app/**/*.ts"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
 }
