@@ -1,4 +1,4 @@
-import { ImageUploadController } from "controllers";
+import { ImageUploadController } from "../controllers";
 import { Application, Request, Response } from "express";
 
 export class Routes {

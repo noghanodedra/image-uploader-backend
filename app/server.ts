@@ -7,8 +7,8 @@ import * as bodyParser from "body-parser";
 import cors from "cors";
 import "dotenv/config";
 
-import * as envConfig from "config";
-import { Routes } from "routes/upload.routes";
+import { default as envConfig } from "./configs/index";
+import { Routes } from "./routes/upload.routes";
 
 class App {
 
@@ -29,7 +29,7 @@ class App {
       })
     );
     const corsConfig = {
-      origin: envConfig.default.originUrl,
+      origin: envConfig.originUrl,
       credentials: true,
     };
     this.app.use(cors(corsConfig));
@@ -37,7 +37,7 @@ class App {
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.disable("x-powered-by"); // disable X-Powered-By header
 
-    const PORT = envConfig.default.port || 4000;
+    const PORT = envConfig.port || 4000;
     this.app.listen(PORT, () => {
       console.log(`🚀 Server ready at http://localhost:${PORT}`);
     });

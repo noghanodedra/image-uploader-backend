@@ -3,17 +3,17 @@ import { ImageDetails } from "models/ImageDetails";
 import { getConnection } from "typeorm";
 import * as AWS from "aws-sdk";
 
-import * as envConfig from "config/index";
+import { default as envConfig } from "../configs/index";
 import { ValidationError } from "helpers/ValidationError";
 import {
   INVALID_FILE_SIZE,
   INVALID_FILE_TYPE,
 } from "helpers/ValidationMessages";
 
-const AWS_S3_BUCKET_NAME = envConfig.default.s3.bucketName || "";
+const AWS_S3_BUCKET_NAME = envConfig.s3.bucketName || "";
 AWS.config.update({
-  accessKeyId: envConfig.default.s3.accessKeyId,
-  secretAccessKey: envConfig.default.s3.secretAccessKey,
+  accessKeyId: envConfig.s3.accessKeyId,
+  secretAccessKey: envConfig.s3.secretAccessKey,
 });
 
 const DEFAULT_MAX_UPLOAD_FILE_SIZE_KB = 500;
@@ -28,13 +28,13 @@ export class ImageUploadService {
   private async fileValidations(file: File): Promise<void> {
     return new Promise((resolve, reject) => {
       const allowedMimes =
-        envConfig.default.fileValidations.allowedFileMimeTypes?.split(",") ||
+        envConfig.fileValidations.allowedFileMimeTypes?.split(",") ||
         [];
       if (!allowedMimes.indexOf(file["mimetype"])) {
         reject(new ValidationError(INVALID_FILE_TYPE));
       }
       const allowedFileSize =
-        envConfig.default.fileValidations.allowedFileSizeInKB ||
+        envConfig.fileValidations.allowedFileSizeInKB ||
         DEFAULT_MAX_UPLOAD_FILE_SIZE_KB;
       const actulaFileSize = file.size / 1000;
       if (Number(allowedFileSize) < Number(actulaFileSize)) {

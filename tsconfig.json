@@ -8,7 +8,6 @@
       "services/*": ["services/*"],
       "routes/*": ["routes/*"],
       "helpers/*": ["helpers/*"],
-      "config/*": ["config/*"],
       "*": ["node_modules/"],
       "typings/*": ["app/typings/*"]
     },

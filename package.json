@@ -2,7 +2,7 @@
   "name": "image-uploader-backend",
   "version": "1.0.0",
   "description": "The backend app to upload image files to aws s3 and insert details in aws rds",
-  "main": "server.ts",
+  "main": "app/server.ts",
   "compilerOptions": {
     "include": [
       "app/**/*.ts"
@@ -17,13 +17,12 @@
     "services": "app/services",
     "models": "app/models",
     "routes": "app/routes",
-    "config": "app/config",
     "helpers": "app/helpers"
   },
   "scripts": {
     "start": "ts-node server.ts",
     "watch": "tsc -p tsconfig.json -w",
-    "dev": "nodemon -w . --ext ts --exec ts-node server.ts",
+    "dev": "nodemon -w . --ext ts --exec ts-node app/server.ts",
     "build": "tsc",
     "postinstall": "npm run-script build",
     "test": "jest"
